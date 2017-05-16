@@ -40,23 +40,43 @@ public class FSMServer {
     @SuppressWarnings("restriction")
 	public static void main(String[] args) throws Exception
     {    	
-    	if (args.length >= 1)
-    		portNumberString = args[0];
-    	int port = new Integer(portNumberString);
-    	if (args.length >= 2)
-    		urlString = args[1];
-    	if (args.length >= 3)
-    		location = args[2];
+System.out.println("CP201");
+for (int i=0; (i < args.length); i++)
+	System.out.println("args[" + i + "] = '" + args[i] + "'");
+
+	int port = 0;
+	if (args.length == 3 && args[2].startsWith("["))
+	{
+		// Format is [8080, /estafet/fsm/demo/api, $SCRIBBLEDIR]
+		String tmp = args[2];
+		String dockerargs = tmp.substring(1,tmp.length()-1);
+		String dockerargsvector[] = dockerargs.split(",",5);
+		for (int i=0; (i < dockerargsvector.length); i++)
+	System.out.println("dockerargs[" + i + "] = '" + dockerargsvector[i] + "'");
+		portNumberString = dockerargsvector[0];
+    		port = new Integer(portNumberString);
+    		urlString = dockerargsvector[1];
+    		location = dockerargsvector[2];
+	} else {
+    		if (args.length >= 1)
+    			portNumberString = args[0];
+    		port = new Integer(portNumberString);
+    		if (args.length >= 2)
+    			urlString = args[1];
+    		if (args.length >= 3)
+    			location = args[2];
+	}
         System.out.println("Bringing up http server on port " + port + " for url " + urlString);
         System.out.println("Using " + location + " for scripts ");
         payload = "";
 
-		HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+	HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         HttpContext context = server.createContext(urlString);
         System.out.println(context.getPath());
-        context.setHandler((he) -> {
-//System.out.println("\n------- GOT REQUEST METHOD: " + he.getRequestMethod() + "-------");
-//System.out.println("context path: " + context.getPath());
+        context.setHandler((he) -> 
+	{
+System.out.println("\n------- GOT REQUEST METHOD: " + he.getRequestMethod() + "-------");
+System.out.println("context path: " + context.getPath());
                 InputStreamReader isr =  new InputStreamReader(he.getRequestBody(),"utf-8");
                 BufferedReader br = new BufferedReader(isr);                
                 Map<String,List<String>> map = he.getRequestHeaders();
@@ -82,10 +102,10 @@ public class FSMServer {
                 	contentLength = i.intValue();
                 }
                 URI uri = he.getRequestURI();
-//System.out.println("URI is <" + uri + ">");
+System.out.println("URI is <" + uri + ">");
                 String[] p = extractParametersFrom(uri, "____");
                 String event = p[1].substring(p[1].indexOf("=")+1);
-//System.out.println("Event: " + event);
+System.out.println("Event: " + event);
                 String data = br.readLine();
 //System.out.println("data is <<<<<<<<<<<<\n" + data + "\n<<<<<<<<<<<<");
 		if (data != null)
