@@ -1,4 +1,4 @@
-package com.estafet.scribble.easyfsm.example;
+package com.estafet;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,10 +12,12 @@ public class Shell {
 		String domainName = "google.com";
 
 		//in mac oxs
-		String command = "ping -c 3 " + domainName;
+		//String command = "ping -c 3 " + domainName;
 
 		//in windows
-		//String command = "ping -n 3 " + domainName;
+		String command = "ping -n 3 " + domainName;
+		
+		//command = "c:\\dir";
 
 		String output = obj.executeCommand(command);
 

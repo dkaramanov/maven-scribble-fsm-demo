@@ -1,4 +1,4 @@
-package com.estafet.scribble.easyfsm.example;
+package com.estafet;
 import com.estafet.scribble.easyfsm.Action.FSMAction;
 import com.estafet.scribble.easyfsm.States.FSMState;
 import com.estafet.scribble.easyfsm.States.FSMStateAction;
@@ -32,9 +32,9 @@ public class FSMServer {
 	
 	static FSM f = null;
 	static String myrole = "generic";
-	static String portNumberString = "4040";
+	static String portNumberString = "4045";
 	static String urlString = "/fsmserver/api";
-	static String location = "/Users/stalbot";
+	static String location = "C:/Users/dell/git/maven-scribble-fsm-demo";
 	static String payload = urlString + " port " + portNumberString + " response.";
 
     @SuppressWarnings("restriction")
@@ -187,7 +187,9 @@ System.out.println("------- END REQUEST METHOD: " + he.getRequestMethod() + "---
 		e.printStackTrace();
 	}
 	// Construct epp command
-    	String command = location + "/bin/epp.sh " + scribbleFile + " " + protocol + " " + role;
+    	//String command = location + "/bin/epp.sh " + scribbleFile + " " + protocol + " " + role;
+    	
+    	String command = "c:/bash";
     	
     	System.out.println("command <" + command + ">");
 
